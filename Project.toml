@@ -1,6 +1,5 @@
-name = "Hop"
-uuid = "27194a60-cc7c-11e8-1833-27a509d26cbc"
-authors = ["Chong Wang <atbug@outlook.com>"]
+name = "HopTB"
+uuid = "3804c90a-d6ae-434d-aed1-763ec3185202"
 version = "0.8.0"
 
 [deps]

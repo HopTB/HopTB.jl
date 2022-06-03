@@ -1,7 +1,7 @@
-# Hop.Magnetism
+# HopTB.Magnetism
 
 
 ```@docs
-Hop.Magnetism.get_orbital_moment
-Hop.Magnetism.get_field_modified_Es
+HopTB.Magnetism.get_orbital_moment
+HopTB.Magnetism.get_field_modified_Es
 ```

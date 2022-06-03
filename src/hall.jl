@@ -1,9 +1,9 @@
 module Hall
 
 using LinearAlgebra, Distributed
-using ..Hop
-using ..Hop.Utilities: fermidirac, constructmeshkpts, splitkpts
-using ..Hop.Parallel: ParallelFunction, claim!, stop!, parallel_sum
+using ..HopTB
+using ..HopTB.Utilities: fermidirac, constructmeshkpts, splitkpts
+using ..HopTB.Parallel: ParallelFunction, claim!, stop!, parallel_sum
 
 export getahc
 
@@ -21,16 +21,16 @@ function _getahc(atm::AbstractTBModel, α::Int64, β::Int64, kpts::AbstractMatri
         order = [0, 0, 0]
         order[β] = 1
         Sbar_β = egvecs' * getdS(atm, Tuple(order), k) * egvecs
-        Abar_α = egvecs' * Hop.getAw(atm, α, k) * egvecs
-        Abar_β = egvecs' * Hop.getAw(atm, β, k) * egvecs
-        Dα = Hop.getD(atm, α, k)
-        Dβ = Hop.getD(atm, β, k)
+        Abar_α = egvecs' * HopTB.getAw(atm, α, k) * egvecs
+        Abar_β = egvecs' * HopTB.getAw(atm, β, k) * egvecs
+        Dα = HopTB.getD(atm, α, k)
+        Dβ = HopTB.getD(atm, β, k)
         order = [0, 0, 0]
         order[α] = 1
-        dAw_βα = Hop.getdAw(atm, β, Tuple(order), k)
+        dAw_βα = HopTB.getdAw(atm, β, Tuple(order), k)
         order = [0, 0, 0]
         order[β] = 1
-        dAw_αβ = Hop.getdAw(atm, α, Tuple(order), k)
+        dAw_αβ = HopTB.getdAw(atm, α, Tuple(order), k)
         Ωbar_αβ = egvecs' * (dAw_βα - dAw_αβ) * egvecs
         tmp1 = Sbar_α*Abar_β
         tmp2 = Sbar_β*Abar_α
@@ -74,8 +74,8 @@ function getahc(atm::AbstractTBModel, α::Int64, β::Int64, nkmesh::Vector{Int64
     Ts::Vector{Float64} = [0.0], μs::Vector{Float64} = [0.0])
     @assert size(nkmesh, 1) == 3
     nkpts = prod(nkmesh)
-    kpts = Hop.Utilities.constructmeshkpts(nkmesh)
-    kptslist = Hop.Utilities.splitkpts(kpts, nworkers())
+    kpts = HopTB.Utilities.constructmeshkpts(nkmesh)
+    kptslist = HopTB.Utilities.splitkpts(kpts, nworkers())
 
     jobs = Vector{Future}()
     for iw in 1:nworkers()
@@ -86,7 +86,7 @@ function getahc(atm::AbstractTBModel, α::Int64, β::Int64, nkmesh::Vector{Int64
 
     σs = zeros(Float64, length(Ts), length(μs))
     for iw in 1:nworkers()
-        σs += Hop.Utilities.safe_fetch(jobs[iw])
+        σs += HopTB.Utilities.safe_fetch(jobs[iw])
     end
 
     bzvol = abs(dot(cross(atm.rlat[:, 1], atm.rlat[:, 2]), atm.rlat[:, 3]))
@@ -102,12 +102,12 @@ function _collect_berry_curvature(atm::AbstractTBModel, α::Int64, β::Int64, kp
         egvals, egvecs = geteig(atm, k)
         order = [0, 0, 0]; order[α] = 1; Sbar_α = egvecs' * getdS(atm, Tuple(order), k) * egvecs
         order = [0, 0, 0]; order[β] = 1; Sbar_β = egvecs' * getdS(atm, Tuple(order), k) * egvecs
-        Abar_α = egvecs' * Hop.getAw(atm, α, k) * egvecs
-        Abar_β = egvecs' * Hop.getAw(atm, β, k) * egvecs
-        Dα = Hop.getD(atm, α, k)
-        Dβ = Hop.getD(atm, β, k)
-        order = [0, 0, 0]; order[α] = 1; dAw_βα = Hop.getdAw(atm, β, Tuple(order), k)
-        order = [0, 0, 0]; order[β] = 1; dAw_αβ = Hop.getdAw(atm, α, Tuple(order), k)
+        Abar_α = egvecs' * HopTB.getAw(atm, α, k) * egvecs
+        Abar_β = egvecs' * HopTB.getAw(atm, β, k) * egvecs
+        Dα = HopTB.getD(atm, α, k)
+        Dβ = HopTB.getD(atm, β, k)
+        order = [0, 0, 0]; order[α] = 1; dAw_βα = HopTB.getdAw(atm, β, Tuple(order), k)
+        order = [0, 0, 0]; order[β] = 1; dAw_αβ = HopTB.getdAw(atm, α, Tuple(order), k)
         Ωbar_αβ = egvecs' * (dAw_βα - dAw_αβ) * egvecs
         berry_curvature[:, ik] = real.(diag(Ωbar_αβ - Sbar_α * Abar_β + Sbar_β * Abar_α - im * Dα * Dβ + 
             im * Dβ * Dα - Dα * Abar_β + Abar_β * Dα + Dβ * Abar_α - Abar_α * Dβ))
@@ -129,7 +129,7 @@ The returned matrix Ω[n, ik] is berry curvature for band n at ik point.
 function collect_berry_curvature(atm::AbstractTBModel, α::Int64, β::Int64, kpts::AbstractMatrix{Float64})
     nkpts = size(kpts, 2)
 
-    kptslist = Hop.Utilities.splitkpts(kpts, nworkers())
+    kptslist = HopTB.Utilities.splitkpts(kpts, nworkers())
     jobs = Vector{Future}()
     for iw in 1:nworkers()
         job = @spawn _collect_berry_curvature(atm, α, β, kptslist[iw])
@@ -138,7 +138,7 @@ function collect_berry_curvature(atm::AbstractTBModel, α::Int64, β::Int64, kpt
 
     result = zeros((atm.norbits, 0))
     for iw in 1:nworkers()
-        result = cat(result, Hop.Utilities.safe_fetch(jobs[iw]), dims = (2,))
+        result = cat(result, HopTB.Utilities.safe_fetch(jobs[iw]), dims = (2,))
     end
     return result
 end

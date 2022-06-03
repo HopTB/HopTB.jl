@@ -19,7 +19,7 @@ first dimension changes fastest.
 Example:
 
 ```julia
-julia> m = Hop.Meshes.UniformMesh([3, 4, 5]; startpoint=[0.1, 0.2, 0.3], regionsize=[1.0, 2.0, 3.0])
+julia> m = HopTB.Meshes.UniformMesh([3, 4, 5]; startpoint=[0.1, 0.2, 0.3], regionsize=[1.0, 2.0, 3.0])
 UniformMesh: [3, 4, 5]
 
 julia> m[29]
@@ -125,7 +125,7 @@ Given a point in a mesh, find its position in the mesh.
 
 Example
 ```julia
-julia> mesh = Hop.Meshes.UniformMesh([3, 4, 5]; startpoint=[0.1, 0.2, 0.3], regionsize=[1.0, 2.0, 3.0]);
+julia> mesh = HopTB.Meshes.UniformMesh([3, 4, 5]; startpoint=[0.1, 0.2, 0.3], regionsize=[1.0, 2.0, 3.0]);
 
 julia> find_point_in_mesh(mesh[29], mesh)
 3-element Array{Int64,1}:

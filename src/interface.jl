@@ -1,7 +1,7 @@
 module Interface
 
 using StaticArrays, LinearAlgebra
-using ..Hop
+using ..HopTB
 
 export createmodelaims, createmodelopenmx, createmodelwannier
 

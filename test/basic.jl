@@ -1,4 +1,4 @@
-using Hop, Test, LinearAlgebra
+using HopTB, Test, LinearAlgebra
 include("zoo.jl")
 
 
@@ -9,14 +9,14 @@ end)
 
 let
     tm = get_Kane_Mele()
-    @test real.(diag(Hop.getvelocity(tm, 1, inv(tm.rlat)*[0.1, 0.2, 0.0]))) ≈
+    @test real.(diag(HopTB.getvelocity(tm, 1, inv(tm.rlat)*[0.1, 0.2, 0.0]))) ≈
         (geteig(tm, inv(tm.rlat)*[0.1001, 0.2, 0.0]).values-geteig(tm, inv(tm.rlat)*[0.1, 0.2, 0.0]).values)/0.0001 atol=1.0e-3
     egvals = geteig(tm, [0.1, 0.2, 0.0]).values
-    @test Hop.getvelocity(tm, 1, [0.1, 0.2, 0.0])[1, 2] ≈ im*Hop.getA(tm, 1, [0.1, 0.2, 0.0])[1, 2]*(egvals[1]-egvals[2])
+    @test HopTB.getvelocity(tm, 1, [0.1, 0.2, 0.0])[1, 2] ≈ im*HopTB.getA(tm, 1, [0.1, 0.2, 0.0])[1, 2]*(egvals[1]-egvals[2])
 end
 
 @testset "Berry curvature" begin
-    tm = Hop.Zoo.getBN()
+    tm = HopTB.Zoo.getBN()
     @test get_berry_curvature(tm, 1, 2, [1/3, 2/3, 0]) ≈ [-1.5, 1.5] atol = 1.0e-7
     @test get_berry_curvature(tm, 1, 2, [2/3, 1/3, 0]) ≈ [1.5, -1.5] atol = 1.0e-7
 end

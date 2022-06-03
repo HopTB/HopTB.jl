@@ -452,12 +452,12 @@ Calculate Berry curvature Ω for `tm` at `k`.
     _, V = geteig(tm, k)
     Sbar_α = V' * getdS(tm, getorder(α), k) * V
     Sbar_β = V' * getdS(tm, getorder(β), k) * V
-    Abar_α = V' * Hop.getAw(tm, α, k) * V
-    Abar_β = V' * Hop.getAw(tm, β, k) * V
-    D_α = Hop.getD(tm, α, k)
-    D_β = Hop.getD(tm, β, k)
-    dAw_βα = Hop.getdAw(tm, β, getorder(α), k)
-    dAw_αβ = Hop.getdAw(tm, α, getorder(β), k)
+    Abar_α = V' * HopTB.getAw(tm, α, k) * V
+    Abar_β = V' * HopTB.getAw(tm, β, k) * V
+    D_α = HopTB.getD(tm, α, k)
+    D_β = HopTB.getD(tm, β, k)
+    dAw_βα = HopTB.getdAw(tm, β, getorder(α), k)
+    dAw_αβ = HopTB.getdAw(tm, α, getorder(β), k)
     Ωbar_αβ = V' * (dAw_βα - dAw_αβ) * V
     return real(diag(Ωbar_αβ - Sbar_α * Abar_β + Sbar_β * Abar_α - im * D_α * D_β +
         im * D_β * D_α - D_α * Abar_β + Abar_β * D_α + D_β * Abar_α - Abar_α * D_β))

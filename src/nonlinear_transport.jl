@@ -1,8 +1,8 @@
 module NonlinearTransport
 
 using LinearAlgebra
-using ..Hop
-using ..Hop.Parallel: parallel_sum
+using ..HopTB
+using ..HopTB.Parallel: parallel_sum
 
 ################################################################################
 ##  Second order intrinsic nonlinear conductivity
@@ -32,7 +32,7 @@ function get_2nd_intrinsic_conductivity_k(
     result = 0.0
     for n in degenerate_band_indices
         for m in 1:tm.norbits
-            if abs(Es[n] - Es[m]) > Hop.DEGEN_THRESH[1] && !(m in degenerate_band_indices)
+            if abs(Es[n] - Es[m]) > HopTB.DEGEN_THRESH[1] && !(m in degenerate_band_indices)
                 result += real((v[α] * Aβ[n, m] * Aγ[m, n] - v[β] * Aα[n, m] * Aγ[m, n]) / (Es[n] - Es[m]))
             end
         end

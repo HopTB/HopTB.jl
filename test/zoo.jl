@@ -1,4 +1,4 @@
-using Hop, Test
+using HopTB, Test
 
 function getBN()
     lat = [1 1/2 0; 0 √3/2 0; 0 0 10.0]
@@ -57,7 +57,7 @@ end
 function getHaldane()
     lat = [1 1/2 0; 0 √3/2 0; 0 0 10.0]
     site_positions = lat*([1/3 1/3 0; 2/3 2/3 0]')
-    haldane = Hop.TBModel(lat, site_positions, [[0], [0]])
+    haldane = HopTB.TBModel(lat, site_positions, [[0], [0]])
 
     Δ = 0.0
     t1 = -1.0

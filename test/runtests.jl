@@ -2,7 +2,7 @@ cd(dirname(dirname(@__FILE__)))
 @info "CWD is " * pwd()
 
 @info "Loading Package ..."
-using Hop, Test
+using HopTB, Test
 
 @info "Loading Data ..."
 
@@ -31,6 +31,16 @@ macro register(datafile::String, callback)
     end
 end
 
+if !ispath(pwd() * "/test/data")
+    mkdir(pwd() * "/test/data")
+end
+for filename in keys(models)
+    filepath = pwd() * "/test/data/$filename"
+    if !ispath(filepath)
+        download("https://raw.githubusercontent.com/HopTB/HopTestData/main/$filename", pwd() * "/test/data/$filename")
+    end
+end
+
 @info "Collecting Tests ..."
 include("memoize.jl")
 include("model.jl")
@@ -52,7 +62,7 @@ include("mesh.jl")
 for (datafile, taskvec) in tasks
     @info "  Loading $datafile ..."
     method = models[datafile]
-    nm = getfield(Hop.Interface, Symbol(:createmodel, method))("test/data/" * datafile)
+    nm = getfield(HopTB.Interface, Symbol(:createmodel, method))("test/data/" * datafile)
     for (sourcefilename, testfunc) in taskvec
         @info "    Running test in $sourcefilename ..."
         testfunc(nm)

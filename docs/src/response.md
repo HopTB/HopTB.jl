@@ -1,7 +1,7 @@
-# Hop.Response
+# HopTB.Response
 
 ```@docs
-Hop.Response.getresponse
-Hop.Response.get_Floquet_response
-Hop.Response.clt_Floquet_response
+HopTB.Response.getresponse
+HopTB.Response.get_Floquet_response
+HopTB.Response.clt_Floquet_response
 ```

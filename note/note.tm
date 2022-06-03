@@ -15,11 +15,11 @@
     <assign|ket|<macro|a|<around*|\||<arg|a>|\<rangle\>>>>
   </hide-preamble>
 
-  <doc-data|<doc-title|Note for Hop.jl>>
+  <doc-data|<doc-title|Note for HopTB.jl>>
 
   <section|Convention>
 
-  Since Hop.jl is doing real material calculations, this unit will always be
+  Since HopTB.jl is doing real material calculations, this unit will always be
   standard units. Especially, it it important to keep in mind that
 
   <\itemize-dot>
@@ -138,7 +138,7 @@
   </eqnarray*>
 
   where <math|\<Omega\><rsup|\<alpha\>\<beta\>>=\<partial\><rsub|\<b-k\>><rsup|\<alpha\>>A<rsup|\<beta\>>-\<partial\><rsub|\<b-k\>><rsup|\<beta\>>A<rsup|\<alpha\>>>.
-  Hop.jl calculates <math|\<Omega\><rsup|\<alpha\>\<beta\>>>.
+  HopTB.jl calculates <math|\<Omega\><rsup|\<alpha\>\<beta\>>>.
 
   <section|Berry curvature dipole>
 
@@ -151,7 +151,7 @@
 
   where <math|\<Omega\><rsup|\<alpha\>\<beta\>>=\<partial\><rsub|\<b-k\>><rsup|\<alpha\>>A<rsup|\<beta\>>-\<partial\><rsub|\<b-k\>><rsup|\<beta\>>A<rsup|\<alpha\>>>,
   <math|\<b-A\>> is Berry connection, <math|\<eta\>> accounts for scattering.
-  Hop.jl calculates the following dimensionless tensor at zero temperature
+  HopTB.jl calculates the following dimensionless tensor at zero temperature
 
   <\eqnarray*>
     <tformat|<table|<row|<cell|\<Lambda\><rsup|\<alpha\>\<beta\>\<gamma\>>>|<cell|=>|<cell|-<big|sum><rsub|n><big|int><rsub|BZ><frac|\<mathd\>\<b-k\>|<around*|(|2\<mathpi\>|)><rsup|3>>\<Omega\><rsub|n\<nocomma\>n><rsup|\<alpha\>\<beta\>>\<partial\><rsub|\<b-k\>><rsup|\<gamma\>>f<rsub|n>>>|<row|<cell|>|<cell|=>|<cell|\<hbar\><big|sum><rsub|n><big|int><rsub|BZ><frac|\<mathd\>\<b-k\>|<around*|(|2\<mathpi\>|)><rsup|3>>\<Omega\><rsub|n\<nocomma\>n><rsup|\<alpha\>\<beta\>>v<rsub|n><rsup|\<gamma\>>\<delta\><around*|(|\<varepsilon\><rsub|n>-\<mu\>|)>,<eq-number>>>>>
@@ -305,7 +305,7 @@
     <tformat|<table|<row|<cell|\<sigma\><rsup|\<alpha\>\<beta\>\<gamma\>>>|<cell|=>|<cell|-<frac|e<rsup|3>\<tau\><rsup|2>|\<hbar\><rsup|3>><big|sum><rsub|n><big|int><frac|\<mathd\><rsup|3>\<b-k\>|<around*|(|2\<mathpi\>|)><rsup|3>><around*|(|\<partial\><rsub|\<alpha\>>\<varepsilon\><rsub|n>|)><around*|(|\<partial\><rsub|\<beta\>>\<partial\><rsub|\<gamma\>>\<varepsilon\><rsub|n>|)>\<delta\><around*|(|\<varepsilon\><rsub|n>-\<mu\>|)>,>>|<row|<cell|>|<cell|=>|<cell|-<frac|e<rsup|3>\<tau\><rsup|2>|\<hbar\><rsup|3>><big|sum><rsub|n><big|int><rsub|FS<rsub|n>><frac|\<mathd\>\<sigma\>|<around*|(|2\<mathpi\>|)><rsup|3>><around*|(|\<partial\><rsub|\<alpha\>>\<varepsilon\><rsub|n>|)><around*|(|\<partial\><rsub|\<beta\>>\<partial\><rsub|\<gamma\>>\<varepsilon\><rsub|n>|)><frac|1|<around*|\||\<nabla\>\<varepsilon\><rsub|n>|\|>>.<eq-number>>>>>
   </eqnarray*>
 
-  Hop.jl calculates the following quantity
+  HopTB.jl calculates the following quantity
 
   <\eqnarray*>
     <tformat|<table|<row|<cell|\<Lambda\><rsup|\<alpha\>\<beta\>\<gamma\>>>|<cell|=>|<cell|-<frac|e<rsup|3>|\<hbar\>><big|sum><rsub|n><big|int><rsub|FS<rsub|n>><frac|\<mathd\>\<sigma\>|<around*|(|2\<mathpi\>|)><rsup|3>><around*|(|\<partial\><rsub|\<alpha\>>\<varepsilon\><rsub|n>|)><around*|(|\<partial\><rsub|\<beta\>>\<partial\><rsub|\<gamma\>>\<varepsilon\><rsub|n>|)><frac|1|<around*|\||\<nabla\>\<varepsilon\><rsub|n>|\|>>.<eq-number>>>>>

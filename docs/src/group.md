@@ -1,14 +1,14 @@
-# Hop.Group
+# HopTB.Group
 
 ```@docs
-Hop.Group.Symmetry
-Hop.Group.inverse
-Hop.Group.gettranslation
-Hop.Group.getrotation
-Hop.Group.getTRS
-Hop.Group.getmirror
-Hop.Group.decompose_to_primitive
-Hop.Group.generategroup
-Hop.Group.symmetrize
-Hop.Group.get_bloch_rep
+HopTB.Group.Symmetry
+HopTB.Group.inverse
+HopTB.Group.gettranslation
+HopTB.Group.getrotation
+HopTB.Group.getTRS
+HopTB.Group.getmirror
+HopTB.Group.decompose_to_primitive
+HopTB.Group.generategroup
+HopTB.Group.symmetrize
+HopTB.Group.get_bloch_rep
 ```

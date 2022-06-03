@@ -1,7 +1,7 @@
-# Hop.Floquet
+# HopTB.Floquet
 
 ```@docs
-Hop.Floquet.FTBModel
-Hop.Floquet.getFTBModel
-Hop.Floquet.addlight
+HopTB.Floquet.FTBModel
+HopTB.Floquet.getFTBModel
+HopTB.Floquet.addlight
 ```

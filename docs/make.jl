@@ -1,7 +1,7 @@
-using Documenter, Hop
+using Documenter, HopTB
 
-makedocs(sitename="Hop.jl")
+makedocs(sitename="HopTB.jl")
 
 deploydocs(
-    repo = "github.com/Hop-developers/Hop.jl.git"
+    repo = "github.com/HopTB/HopTB.jl.git"
 )

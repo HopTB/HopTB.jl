@@ -1,6 +1,6 @@
-# Hop.Topology
+# HopTB.Topology
 
 ## exported functions
 ```@docs
-Hop.Topology.get_smooth_gauge
+HopTB.Topology.get_smooth_gauge
 ```

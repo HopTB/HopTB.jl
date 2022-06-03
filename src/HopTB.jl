@@ -1,4 +1,4 @@
-module Hop
+module HopTB
 
 # memoization module
 include("memoize.jl")

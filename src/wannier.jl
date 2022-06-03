@@ -1,7 +1,7 @@
 module Wannier
 
 using LinearAlgebra, HCubature
-using ..Hop
+using ..HopTB
 
 export getwf, interpolatewf
 
@@ -64,7 +64,7 @@ Calculate Wannier functions in the home unit cell.
 
 `getvs` should be a function that takes a three-component vector k as argument and
 yields a matrix (orbital_index, band_index). Wannier functions will only be computed
-at `Rs`. The other parameters are directly sent to `Hop.Wannier.pintegrate`.
+at `Rs`. The other parameters are directly sent to `HopTB.Wannier.pintegrate`.
 """
 function getwf(getvs::Function, Rs::AbstractMatrix{Int64}; rtol::Float64=√eps(),
     atol::Float64=0.0, constant_components::Vector{Int64}=zeros(Int64, 0),
@@ -82,7 +82,7 @@ function getwf(getvs::Function, Rs::AbstractMatrix{Int64}; rtol::Float64=√eps(
         return tmp
     end
 
-    wfstmp, _ = Hop.Utilities.pintegrate(getitrd, zeros(3), ones(3),
+    wfstmp, _ = HopTB.Utilities.pintegrate(getitrd, zeros(3), ones(3),
         rtol=rtol, atol=atol, constant_components=constant_components, ndiv=ndiv)
 
     wfs = Dict{Vector{Int64}, Matrix{ComplexF64}}()
@@ -104,7 +104,7 @@ getwf(tm::TBModel, twfs::Dict{Vector{Int64}, Matrix{T}},
 Calculate Wannier functions with trial Wannier functions in `twfs`.
 
 The project orthogonalization procedure has a tolerance `tol`. Other keyword
-arguments are directly sent to `Hop.Wannier.pintegrate`.
+arguments are directly sent to `HopTB.Wannier.pintegrate`.
 """
 function getwf(tm::TBModel, twfs::Dict{Vector{Int64}, Matrix{T}},
     bands::Vector{Int64}, Rs::AbstractMatrix{Int64}; tol::Float64=0.1, rtol::Float64=√eps(),

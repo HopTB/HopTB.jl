@@ -3,7 +3,7 @@ include("zoo.jl")
 let
     tm = getBN()
     twfs = Dict([0, 0, 0]=>reshape([1.0, 0.0], (2, 1)))
-    wfs = Hop.Wannier.getwf(tm, twfs, [1], [10, 10, 1], [5, 5, 1])
+    wfs = HopTB.Wannier.getwf(tm, twfs, [1], [10, 10, 1], [5, 5, 1])
     @test wfs[[0, 0, 0]][2] ≈ wfs[[-1, 0, 0]][2]
 end
 
@@ -11,11 +11,11 @@ let
     tm = getBN()
     twfs = Dict([0, 0, 0]=>reshape([1.0, 0.0], (2, 1)))
     Rs = [0 0 0; -1 0 0]'
-    wfs = Hop.Wannier.getwf(tm, twfs, [1], Rs, atol=1.0e-15)
+    wfs = HopTB.Wannier.getwf(tm, twfs, [1], Rs, atol=1.0e-15)
     @test wfs[[0, 0, 0]][2] ≈ wfs[[-1, 0, 0]][2]
     nrmesh = [2, 2, 0]
     Rs = hcat([[Rx, Ry, Rz] for Rx in -nrmesh[1]:nrmesh[1] for Ry in -nrmesh[2]:nrmesh[2] for Rz in -nrmesh[3]:nrmesh[3]]...)
-    wfs = Hop.Wannier.getwf(tm, twfs, [1], Rs)
+    wfs = HopTB.Wannier.getwf(tm, twfs, [1], Rs)
     s = 0.0
     for (_, val) in wfs
         s += norm(val[:, 1])^2
@@ -52,10 +52,10 @@ let
         ##################################################
         # symmetrization
         ##################################################
-        C4 = Hop.Group.getrotation(2π/4, [0, 0, 1])
-        nTCI = Hop.changebasis(TCI, Dict(1=>[-1/√2 im/√2 0; 0 0 1; 1/√2 im/√2 0]))
+        C4 = HopTB.Group.getrotation(2π/4, [0, 0, 1])
+        nTCI = HopTB.changebasis(TCI, Dict(1=>[-1/√2 im/√2 0; 0 0 1; 1/√2 im/√2 0]))
         set_is_canonical_ordered!(nTCI, true)
-        sTCI = Hop.Group.symmetrize(nTCI, Hop.Group.generategroup([C4]))
+        sTCI = HopTB.Group.symmetrize(nTCI, HopTB.Group.generategroup([C4]))
         ##################################################
         # TRS breaking terms
         ##################################################
@@ -67,7 +67,7 @@ let
         return sTCI
     end
     twfs = Dict([0, 0, 0]=>[0.0 0.0; 0.0 0.0; 1.0 0.0; 0.0 1.0; 0.0 0.0; 0.0 0.0])
-    wfs = Hop.Wannier.interpolatewf(getsTCI, copy([
+    wfs = HopTB.Wannier.interpolatewf(getsTCI, copy([
         0.0 0.0 0.0 0.0 0.0 1.0 -1.0 -1.0 1.0; # This is atomic limit
         0.0 0.0 0.0 0.0 0.5 1.0 -1.0 -1.0 1.0;
         0.0 0.0 0.0 2.0 0.5 1.0 -1.0 -1.0 1.0;
