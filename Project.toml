@@ -13,3 +13,11 @@ SharedArrays = "1a1011a3-84de-559e-8e89-a11a2f7dc383"
 SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[compat]
+julia = "1.6"
+HCubature = "1.0"
+MacroTools = "0.5"
+Meshing = "0.5"
+SpecialFunctions = "1.0, 2.0"
+StaticArrays = "1.0"

@@ -3,6 +3,7 @@ cd(dirname(dirname(@__FILE__)))
 
 @info "Loading Package ..."
 using HopTB, Test
+using Downloads
 
 @info "Loading Data ..."
 
@@ -37,7 +38,7 @@ end
 for filename in keys(models)
     filepath = pwd() * "/test/data/$filename"
     if !ispath(filepath)
-        download("https://raw.githubusercontent.com/HopTB/HopTestData/main/$filename", pwd() * "/test/data/$filename")
+        Downloads.download("https://raw.githubusercontent.com/HopTB/HopTestData/main/$filename", pwd() * "/test/data/$filename")
     end
 end
 
