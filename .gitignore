@@ -1,0 +1,16 @@
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+docs/build/
+docs/site/
+test/data
+drawboard*
+*~
+/.vs*
+/*.jl
+/*.txt
+/bin/*
+/data
+/statprof/*
+playground/
+Manifest.toml
