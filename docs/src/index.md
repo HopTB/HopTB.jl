@@ -1,10 +1,10 @@
-# Hop.jl
+# HopTB.jl
 
-Hop.jl is a tight binding package written in julia. The package has the ability of dealing with non-orthogonal tight binding models and aims at both first principle calculations of real materials and model calculations.
+HopTB.jl is a tight binding package written in julia. The package has the ability of dealing with non-orthogonal tight binding models and aims at both first principle calculations of real materials and model calculations.
 
 ## Features
 
-Hop.jl is still under active development. Current features include
+HopTB.jl is still under active development. Current features include
  - Anomalous Hall effect
  - Spin Hall effect
  - Permittivity
@@ -19,7 +19,7 @@ Hop.jl is still under active development. Current features include
 
 ## FAQ
 
-**What DFT code can be used with Hop.jl?**
+**What DFT code can be used with HopTB.jl?**
  - wannier90
  - openMX
  - fhi-aims

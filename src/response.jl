@@ -5,8 +5,8 @@ THIS MODULE ONLY WORKS FOR MODELS WITH ORTHOGONAL BASIS!
 """
 
 using LinearAlgebra, Distributed
-using ..Hop.Utilities: integrate, constructmeshkpts, splitkpts
-using ..Hop.Parallel: ParallelFunction, claim!, stop!
+using ..HopTB.Utilities: integrate, constructmeshkpts, splitkpts
+using ..HopTB.Parallel: ParallelFunction, claim!, stop!
 
 """
 ```julia

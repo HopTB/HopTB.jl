@@ -1,4 +1,4 @@
-using Hop, Test
+using HopTB, Test
 
 let
     lat = [1 1 / 2 0; 0 sqrt(3) / 2 0; 0 0 1]
@@ -9,7 +9,7 @@ let
     @test_throws Exception addhopping!(tm, [0, 0, 0], [1, 1], 0.5im)
     addhopping!(tm, [0, 0, 0], 1, 1, 0.5)
     addhopping!(tm, [0, 0, 1], 1, 2, 0.5im)
-    @test Hop.has_full_information(tm) == false
+    @test HopTB.has_full_information(tm) == false
     @test tm.hoppings[[0, 0, 0]][1, 1] ≈ 1.0
     @test tm.hoppings[[0, 0, 1]][1, 2] ≈ 0.5im
     @test tm.hoppings[[0, 0, -1]][2, 1] ≈ -0.5im
@@ -45,7 +45,7 @@ let
     sethopping!(tm, [0, 1, 0], 1, 2, [0.5 0.0; 0.0 0.25])
     @test tm.hoppings[[0, 1, 0]][3, 4] ≈ 0.25
     @test tm.hoppings[[0, 1, 0]][1, 4] ≈ 0.0
-    @test Hop._to_orbital_index(tm, 1) == [1, 3]
+    @test HopTB._to_orbital_index(tm, 1) == [1, 3]
 end
 
 
@@ -53,13 +53,13 @@ let
     lat = [1 1 / 2 0; 0 √3 / 2 0; 0 0 1]
     site_positions = lat * ([1 / 3 1 / 3 0; 2 / 3 2 / 3 0]')
     tm = TBModel(lat, site_positions, [[0], [0]])
-    @test Hop._to_orbital_index(tm, (2, 1)) == 2
-    @test Hop._to_site_index(tm, 2) == (2, 1)
+    @test HopTB._to_orbital_index(tm, (2, 1)) == 2
+    @test HopTB._to_site_index(tm, 2) == (2, 1)
     sethopping!(tm, [0, 0, 0], 1, 1, 0.5)
     addhopping!(tm, [0, 0, 0], 1, 1, 0.5)
     addhopping!(tm, [0, 0, 1], 1, 2, 0.5im)
     addhopping!(tm, [1, 0, 0], (1, 1), (2, 1), 1.0)
-    @test Hop.has_full_information(tm) == true
+    @test HopTB.has_full_information(tm) == true
     @test tm.hoppings[[0, 0, 0]][1, 1] ≈ 1.0
     @test tm.hoppings[[0, 0, 1]][1, 2] ≈ 0.5im
     @test tm.hoppings[[0, 0, -1]][2, 1] ≈ -0.5im
@@ -72,10 +72,10 @@ let
     lat = [1 1 / 2 0; 0 √3 / 2 0; 0 0 1]
     site_positions = lat * ([1 / 3 1 / 3 0; 2 / 3 2 / 3 0]')
     tm = TBModel(lat, site_positions, [[0], [0]], isspinful = true)
-    @test Hop._to_orbital_index(tm, (2, 1)) == 2
-    @test Hop._to_orbital_index(tm, (2, 2)) == 4
-    @test Hop._to_site_index(tm, 2) == (2, 1)
-    @test Hop._to_site_index(tm, 3) == (1, 2)
+    @test HopTB._to_orbital_index(tm, (2, 1)) == 2
+    @test HopTB._to_orbital_index(tm, (2, 2)) == 4
+    @test HopTB._to_site_index(tm, 2) == (2, 1)
+    @test HopTB._to_site_index(tm, 3) == (1, 2)
     @test tm.norbits == 4
     @test tm.positions[[0, 0, 0]][1][1, 1] ≈ site_positions[1, 1]
     @test tm.positions[[0, 0, 0]][2][3, 3] ≈ site_positions[2, 1]

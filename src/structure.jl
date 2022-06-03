@@ -1,6 +1,6 @@
 module Structure
 
-using ..Hop
+using ..HopTB
 using LinearAlgebra
 
 """
@@ -33,7 +33,7 @@ function permute_orbits!(tm::TBModel, p::Vector{Int64})
     for (R, position) in tm.positions
         tm.positions[R] = [P*position[α]*P' for α in 1:3]
     end
-    Hop.remove_extra_information!(tm)
+    HopTB.remove_extra_information!(tm)
     return tm
 end
 
@@ -178,7 +178,7 @@ function make_superlattice(tm::TBModel, sc::AbstractMatrix{Int64})
     nvol = round(Int64, det(sc))
     norbits_sc = tm.norbits*nvol
     lat_sc = tm.lat*sc
-    orbpos = Hop.get_orbital_position(tm)
+    orbpos = HopTB.get_orbital_position(tm)
     Rs = zeros(Int64, (3, norbits_sc))
     orbindices = zeros(Int64, norbits_sc)
     cnt = 0

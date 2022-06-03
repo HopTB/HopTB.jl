@@ -1,4 +1,4 @@
-# Hop.Utilities
+# HopTB.Utilities
 
 ## Introduction
 
@@ -6,6 +6,6 @@ This module contains some useful functions.
 
 ## Unexported functions
 ```@docs
-Hop.Utilities.integrate
-Hop.Utilities.pintegrate
+HopTB.Utilities.integrate
+HopTB.Utilities.pintegrate
 ```

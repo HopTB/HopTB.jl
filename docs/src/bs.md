@@ -1,9 +1,9 @@
-# Hop.BandStructure
+# HopTB.BandStructure
 
 ## Functions
 ```@docs
-Hop.BandStructure.getbs
-Hop.BandStructure.getdos
-Hop.BandStructure.getjdos
-Hop.BandStructure.clteig
+HopTB.BandStructure.getbs
+HopTB.BandStructure.getdos
+HopTB.BandStructure.getjdos
+HopTB.BandStructure.clteig
 ```

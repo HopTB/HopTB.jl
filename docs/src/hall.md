@@ -1,7 +1,7 @@
-# Hop.Hall
+# HopTB.Hall
 
 ```@docs
-Hop.Hall.getahc
-Hop.Hall.getshc
-Hop.Hall.collect_berry_curvature
+HopTB.Hall.getahc
+HopTB.Hall.getshc
+HopTB.Hall.collect_berry_curvature
 ```

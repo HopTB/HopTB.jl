@@ -1,21 +1,21 @@
 module Topology
 
 using LinearAlgebra
-using ..Hop
+using ..HopTB
 
 export get_smooth_gauge
 
 
 function parallel_transport(atm::AbstractTBModel, getU::Function,
     Ustart::Matrix{ComplexF64}, kpaths::AbstractMatrix{<:Real}, ndiv::Int64)
-    kpts = Hop.Utilities.constructlinekpts(kpaths, ndiv)
+    kpts = HopTB.Utilities.constructlinekpts(kpaths, ndiv)
     result = Ustart
     for i in 1:(size(kpts, 2) - 1)
         k1, k2 = kpts[:, i], kpts[:, i + 1]
         δk = k2 - k1
         S = getS(atm, k1)
         U = getU(k2)
-        Awδk = sum(map(x->Hop.getAw(atm, x, k1), 1:3) .* (atm.rlat * δk))
+        Awδk = sum(map(x->HopTB.getAw(atm, x, k1), 1:3) .* (atm.rlat * δk))
         tmp = -im * Awδk + S
         result = U * (U') * (tmp') * result
     end
@@ -25,7 +25,7 @@ end
 
 function get_wilson_spectrum(atm::AbstractTBModel, getU::Function,
     kpaths::AbstractMatrix{<:Real}, ndiv::Int64)
-    kpts = Hop.Utilities.constructlinekpts(kpaths, ndiv)
+    kpts = HopTB.Utilities.constructlinekpts(kpaths, ndiv)
     Ustart = getU(kpts[:, 1])
     W = Ustart' * getS(atm, kpts[:, end]) * parallel_transport(atm, getU, Ustart, kpaths, ndiv)
     tmp = eigvals(W)
@@ -73,7 +73,7 @@ function get_smooth_gauge(tm::TBModel, getv::Function, v0::Vector{<:Number},
         δk = k2-k1
         S1 = getS(tm, k1); S2 = getS(tm, k2)
         v = getv(k2)
-        Awδk = sum(map(x->Hop.getAw(tm, x, k1), 1:3).*(tm.rlat*δk))
+        Awδk = sum(map(x->HopTB.getAw(tm, x, k1), 1:3).*(tm.rlat*δk))
         tmp = v*(v')*((-im*Awδk+S1)')*result[:, i]
         result[:, i+1] = tmp/√(tmp'*S2*tmp)
     end

@@ -1,4 +1,4 @@
-# Hop.Utilities
+# HopTB.Utilities
 
 ## Introduction
 
@@ -6,12 +6,12 @@ This module constructs Wannier functions.
 
 ## exported functions
 ```@docs
-Hop.Wannier.getwf
-Hop.Wannier.interpolatewf
+HopTB.Wannier.getwf
+HopTB.Wannier.interpolatewf
 ```
 
 ## Unexported functions
 ```@docs
-Hop.Wannier.inner
-Hop.Wannier.project_orthogonalize
+HopTB.Wannier.inner
+HopTB.Wannier.project_orthogonalize
 ```

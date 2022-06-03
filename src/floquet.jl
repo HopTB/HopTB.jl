@@ -1,7 +1,7 @@
 module Floquet
 
 using LinearAlgebra
-using ..Hop
+using ..HopTB
 using HCubature
 using SpecialFunctions
 using Distributed
@@ -50,7 +50,7 @@ The Floquet Hamiltonian H_F=H-i∂t, in the basis functions |n⟩e^{-ilΩt}, is
 (H_F)_{l, l-p}=⟨⟨0; n e^{-ilΩt}|H(t)|R; m e^{-i(l-p)Ωt}⟩⟩-δ_{p,0}lΩ.
 This function automatically handles the above δ function.
 """
-function Hop.sethopping!(ftm::FTBModel, R::AbstractVector{<:Integer}, n::Int64, m::Int64,
+function HopTB.sethopping!(ftm::FTBModel, R::AbstractVector{<:Integer}, n::Int64, m::Int64,
     p::Int64, hopping::Number)
     niorbs = ftm.num_independent_orbits
     δ = p==0 ? 1 : 0
@@ -73,7 +73,7 @@ Add `hopping` to ⟨⟨0; n e^{-ilΩt}|H(t)|R; m e^{-i(l-p)Ωt}⟩⟩.
 
 This function does not add the onsite energy due to periodic driving.
 """
-function Hop.addhopping!(ftm::FTBModel, R::AbstractVector{Int64}, n::Int64, m::Int64,
+function HopTB.addhopping!(ftm::FTBModel, R::AbstractVector{Int64}, n::Int64, m::Int64,
     p::Int64, hopping::Number)
     niorbs = ftm.num_independent_orbits
     forder = ftm.forder
@@ -122,9 +122,9 @@ function getFTBModel(tm::TBModel{T}, Ω::Float64, forder::Int64;
 end
 
 
-Hop.geteig(ftm::FTBModel, k::Vector{<:Real}) = geteig(ftm.tm, k)
+HopTB.geteig(ftm::FTBModel, k::Vector{<:Real}) = geteig(ftm.tm, k)
 
-Hop.getH(ftm::FTBModel, k::Vector{<:Real}) = getH(ftm.tm, k)
+HopTB.getH(ftm::FTBModel, k::Vector{<:Real}) = getH(ftm.tm, k)
 
 
 """
@@ -150,12 +150,12 @@ function addlight(tm::TBModel{T}, A::Vector{ComplexF64}, Ω::Float64,
     Ar = real.(A)
     Ai = imag.(A)
     for (R, hopping) in tm.hoppings
-        if R == Hop.R0 || !(R in keys(ftm.tm.hoppings))
+        if R == HopTB.R0 || !(R in keys(ftm.tm.hoppings))
             Rc = tm.lat*R
             for n = 1:tm.norbits
-                rn = Hop.get_orbital_position(tm, n)
+                rn = HopTB.get_orbital_position(tm, n)
                 for m = 1:tm.norbits
-                    rm = Hop.get_orbital_position(tm, m)
+                    rm = HopTB.get_orbital_position(tm, m)
                     rnm = rm-rn+Rc
                     x = -Ai⋅rnm
                     y = Ar⋅rnm

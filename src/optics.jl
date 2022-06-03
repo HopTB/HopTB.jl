@@ -1,10 +1,10 @@
 module Optics
 
 using Distributed, LinearAlgebra, SharedArrays
-using ..Hop
-using ..Hop.Utilities: constructmeshkpts, splitkpts
-using ..Hop.Parallel: ParallelFunction, claim!, stop!, parallel_do, parallel_sum
-using ..Hop.Meshes: UniformMesh
+using ..HopTB
+using ..HopTB.Utilities: constructmeshkpts, splitkpts
+using ..HopTB.Parallel: ParallelFunction, claim!, stop!, parallel_do, parallel_sum
+using ..HopTB.Meshes: UniformMesh
 
 export getpermittivity, get_shift_cond, get_shg, cltberryconnection, cltshiftvector
 
@@ -289,13 +289,13 @@ function cltberryconnection(atm::AbstractTBModel, α::Int64, kpts::AbstractMatri
     nkpts = size(kpts, 2)
     jobs = Vector{Future}()
     berryconnection = zeros((atm.norbits, atm.norbits, 0))
-    kptslist = Hop.Utilities.splitkpts(kpts, nworkers())
+    kptslist = HopTB.Utilities.splitkpts(kpts, nworkers())
     for iw in 1:nworkers()
         job = @spawn _cltberryconnection(atm, α, kptslist[iw])
         append!(jobs, [job])
     end
     for iw in 1:nworkers()
-        berryconnection = cat(berryconnection, Hop.Utilities.safe_fetch(jobs[iw]), dims=(3,))
+        berryconnection = cat(berryconnection, HopTB.Utilities.safe_fetch(jobs[iw]), dims=(3,))
     end
     return berryconnection
 end
@@ -343,13 +343,13 @@ function cltshiftvector(atm::AbstractTBModel, α::Int64, β::Int64, kpts::Abstra
     nkpts = size(kpts, 2)
     jobs = Vector{Future}()
     shiftvector = zeros((atm.norbits, atm.norbits, 0))
-    kptslist = Hop.Utilities.splitkpts(kpts, nworkers())
+    kptslist = HopTB.Utilities.splitkpts(kpts, nworkers())
     for iw in 1:nworkers()
         job = @spawn _cltshiftvector(atm, α, β, kptslist[iw])
         append!(jobs, [job])
     end
     for iw in 1:nworkers()
-        shiftvector = cat(shiftvector, Hop.Utilities.safe_fetch(jobs[iw]), dims=(3,))
+        shiftvector = cat(shiftvector, HopTB.Utilities.safe_fetch(jobs[iw]), dims=(3,))
     end
     return shiftvector
 end
@@ -395,7 +395,7 @@ end
 function _get_shg_inter_k_B(tm::AbstractTBModel, α::Int64, β::Int64, γ::Int64,
     ωs::Vector{Float64}, μ::Float64, B::Float64, Bdir::Int64, k::Vector{Float64};
     ϵ::Float64=0.1)
-    Es = Hop.Magnetism.get_field_modified_Es(tm, Bdir, B, k; double_degenerate=false)
+    Es = HopTB.Magnetism.get_field_modified_Es(tm, Bdir, B, k; double_degenerate=false)
     return _get_shg_inter_k_Es(tm, α, β, γ, ωs, μ, k, Es, ϵ=ϵ)
 end
 
@@ -441,7 +441,7 @@ end
 function _get_shg_mix_k_B(tm::AbstractTBModel, α::Int64, β::Int64, γ::Int64,
     ωs::Vector{Float64}, μ::Float64, B::Float64, Bdir::Int64, k::Vector{Float64};
     ϵ::Float64=0.1)
-    Es = Hop.Magnetism.get_field_modified_Es(tm, Bdir, B, k; double_degenerate=false)
+    Es = HopTB.Magnetism.get_field_modified_Es(tm, Bdir, B, k; double_degenerate=false)
     return _get_shg_mix_k_Es(tm, α, β, γ, ωs, μ, k, Es, ϵ=ϵ)
 end
 

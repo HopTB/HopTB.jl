@@ -3,10 +3,10 @@ module BandStructure
 using Distributed, LinearAlgebra, SharedArrays
 using StaticArrays, Meshing
 using Base.Threads: nthreads, threadid, @threads
-using ..Hop
-using ..Hop.Meshes: UniformMesh, find_point_in_mesh
-using ..Hop.Utilities: constructmeshkpts, distance_on_circle, splitkpts, splitvector
-using ..Hop.Parallel: ParallelFunction, claim!, stop!, parallel_do
+using ..HopTB
+using ..HopTB.Meshes: UniformMesh, find_point_in_mesh
+using ..HopTB.Utilities: constructmeshkpts, distance_on_circle, splitkpts, splitvector
+using ..HopTB.Parallel: ParallelFunction, claim!, stop!, parallel_do
 
 export clteig, getbs, getjdos, getdos
 export get_fermi_surfaces
@@ -123,7 +123,7 @@ end
 function clteig(atm::AbstractTBModel, kpts::AbstractMatrix{Float64})
     nkpts = size(kpts, 2)
 
-    kptslist = Hop.Utilities.splitkpts(kpts, nworkers())
+    kptslist = HopTB.Utilities.splitkpts(kpts, nworkers())
     jobs = Vector{Future}()
     for iw in 1:nworkers()
         job = @spawn _clteig(atm, kptslist[iw])
@@ -132,7 +132,7 @@ function clteig(atm::AbstractTBModel, kpts::AbstractMatrix{Float64})
 
     allegvals = zeros((atm.norbits, 0))
     for iw in 1:nworkers()
-        allegvals = cat(allegvals, Hop.Utilities.safe_fetch(jobs[iw]), dims=(2,))
+        allegvals = cat(allegvals, HopTB.Utilities.safe_fetch(jobs[iw]), dims=(2,))
     end
     return allegvals
 end
@@ -189,7 +189,7 @@ reciprocal space and `egvals` contains band energies stored in column for each k
 """
 function getbs(atm::AbstractTBModel, kpath::AbstractMatrix{Float64}, pnkpts::Int64;
     connect_end_points::Bool=false)
-    kdist, kpts = Hop.Utilities.constructlinekpts(kpath,
+    kdist, kpts = HopTB.Utilities.constructlinekpts(kpath,
         convert(Matrix{Float64}, atm.rlat), pnkpts, connect_end_points=connect_end_points)
     nkpts = size(kpts, 2)
     egvals = zeros(atm.norbits, nkpts)
@@ -361,7 +361,7 @@ function getdos(
     nks = prod(nkmesh); nωs = size(ωs, 1)
     ks = constructmeshkpts(nkmesh)
     nsplits = 10*nworkers()
-    ks_list = Hop.Utilities.splitkpts(ks, nsplits)
+    ks_list = HopTB.Utilities.splitkpts(ks, nsplits)
     dos = zeros(nωs)
 
     pf = ParallelFunction(get_dos_ks, tm, ωs, ϵ, len=nsplits)

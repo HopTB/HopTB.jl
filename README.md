@@ -1,5 +1,5 @@
-# Hop.jl
+# HopTB.jl
 
-[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://hop-developers.github.io/Hop.jl/dev/)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://hoptb.github.io/HopTB.jl/dev/)
 
-Tight Binding package written in julia.
+Tight-binding package written in julia.

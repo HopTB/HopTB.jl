@@ -1,4 +1,4 @@
-using Test, Hop.Memoize
+using Test, HopTB.Memoize
 
 
 let

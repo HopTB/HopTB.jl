@@ -1,6 +1,6 @@
 module Zoo
 
-using ..Hop
+using ..HopTB
 
 """
 A two band model for boron nitride.

@@ -1,7 +1,7 @@
 module Magnetism
 
 using LinearAlgebra, Distributed
-using ..Hop
+using ..HopTB
 
 @doc raw"""
 ```julia
@@ -40,9 +40,9 @@ function _get_orbital_moment_core(tm::AbstractTBModel, β::Int64, γ::Int64, k::
     vβ = getvelocity(tm, β, k); vγ = getvelocity(tm, γ, k)
     Es = geteig(tm, k).values
     for n in 1:tm.norbits, m in 1:tm.norbits
-        if abs(Es[n]-Es[m]) <= Hop.DEGEN_THRESH[1]
+        if abs(Es[n]-Es[m]) <= HopTB.DEGEN_THRESH[1]
             for l in 1:tm.norbits
-                if abs(Es[n]-Es[l]) > Hop.DEGEN_THRESH[1]
+                if abs(Es[n]-Es[l]) > HopTB.DEGEN_THRESH[1]
                     result[n, m] += vβ[n, l]*vγ[l, m]/(Es[n]-Es[l])
                 end
             end

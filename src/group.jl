@@ -2,7 +2,7 @@ module Group
 
 import Base.*, Base.==, Base.show
 using LinearAlgebra
-using ..Hop, ..Hop.Memoize
+using ..HopTB, ..HopTB.Memoize
 export Symmetry
 export getrotation, getTRS, getinversion, getmirror
 export generategroup, symmetrize, get_bloch_rep
@@ -402,15 +402,15 @@ function transform_hamiltonian!(
 )
     empty!(ntm.hoppings)
     for (R, hopping) in tm.hoppings, i in 1:tm.nsites, j in 1:tm.nsites
-        indi = Hop._to_orbital_index(tm, i)
-        indj = Hop._to_orbital_index(tm, j)
+        indi = HopTB._to_orbital_index(tm, i)
+        indj = HopTB._to_orbital_index(tm, j)
         site_hopping = hopping[indi, indj]
         nR1, ni = _get_transformed_site(inverse(s), tm, [0, 0, 0], i; position_tolerance=position_tolerance)
         nR2, nj = _get_transformed_site(inverse(s), tm, R, j; position_tolerance=position_tolerance)
         ui = get_orb_rep(s, tm.orbital_types[i])
         uj = get_orb_rep(s, tm.orbital_types[j])
-        nindi = Hop._to_orbital_index(tm, ni)
-        nindj = Hop._to_orbital_index(tm, nj)
+        nindi = HopTB._to_orbital_index(tm, ni)
+        nindj = HopTB._to_orbital_index(tm, nj)
         if !(nR2-nR1 in keys(ntm.hoppings))
             ntm.hoppings[nR2 - nR1] = zeros(ComplexF64, ntm.norbits, ntm.norbits)
         end
@@ -428,15 +428,15 @@ function transform_overlap!(
 )
     empty!(ntm.overlaps)
     for (R, overlap) in tm.overlaps, i in 1:tm.nsites, j in 1:tm.nsites
-        indi = Hop._to_orbital_index(tm, i)
-        indj = Hop._to_orbital_index(tm, j)
+        indi = HopTB._to_orbital_index(tm, i)
+        indj = HopTB._to_orbital_index(tm, j)
         site_overlap = overlap[indi, indj]
         nR1, ni = _get_transformed_site(inverse(s), tm, [0, 0, 0], i; position_tolerance=position_tolerance)
         nR2, nj = _get_transformed_site(inverse(s), tm, R, j; position_tolerance=position_tolerance)
         ui = get_orb_rep(s, tm.orbital_types[i])
         uj = get_orb_rep(s, tm.orbital_types[j])
-        nindi = Hop._to_orbital_index(tm, ni)
-        nindj = Hop._to_orbital_index(tm, nj)
+        nindi = HopTB._to_orbital_index(tm, ni)
+        nindj = HopTB._to_orbital_index(tm, nj)
         if !(nR2-nR1 in keys(ntm.overlaps))
             ntm.overlaps[nR2 - nR1] = zeros(ComplexF64, ntm.norbits, ntm.norbits)
         end
@@ -460,15 +460,15 @@ function transform_position!(
 ) where T <: Number
     empty!(ntm.positions)
     for (R, pos) in tm.positions, i in 1:tm.nsites, j in 1:tm.nsites
-        indi = Hop._to_orbital_index(tm, i)
-        indj = Hop._to_orbital_index(tm, j)
+        indi = HopTB._to_orbital_index(tm, i)
+        indj = HopTB._to_orbital_index(tm, j)
         site_pos = [pos[α][indi, indj] for α in 1:3]
         nR1, ni = _get_transformed_site(inverse(s), tm, [0, 0, 0], i; position_tolerance=position_tolerance)
         nR2, nj = _get_transformed_site(inverse(s), tm, R, j; position_tolerance=position_tolerance)
         ui = get_orb_rep(s, tm.orbital_types[i])
         uj = get_orb_rep(s, tm.orbital_types[j])
-        nindi = Hop._to_orbital_index(tm, ni)
-        nindj = Hop._to_orbital_index(tm, nj)
+        nindi = HopTB._to_orbital_index(tm, ni)
+        nindj = HopTB._to_orbital_index(tm, nj)
         if !(nR2 - nR1 in keys(ntm.positions))
             ntm.positions[nR2 - nR1] = [zeros(ComplexF64, ntm.norbits, ntm.norbits) for α in 1:3]
         end
@@ -540,7 +540,7 @@ function get_bloch_rep(s::Symmetry, tm::TBModel, k::Vector{<:Real})
     kc = tm.rlat*k
     for i in 1:tm.nsites
         R, j = _get_transformed_site(s, tm.lat, tm.site_positions, [0, 0, 0], i)
-        rep[Hop._to_orbital_index(tm, j), Hop._to_orbital_index(tm, i)] =
+        rep[HopTB._to_orbital_index(tm, j), HopTB._to_orbital_index(tm, i)] =
             get_orb_rep(s, tm.orbital_types[i])*exp(-im*((get_k_rep(s)*kc)⋅(tm.lat*R)))
     end
     return rep
@@ -548,7 +548,7 @@ end
 
 
 # This transformation is used to change the basis from openmx default to canonical basis.
-# It can be directly put into Hop.changebasis
+# It can be directly put into HopTB.changebasis
 const Us_openmx = Dict(
     0 => Matrix{ComplexF64}(I, 1, 1),
     1 => [-1/√2 im/√2 0; 0 0 1; 1/√2 im/√2 0],
@@ -564,7 +564,7 @@ for l in keys(Us_openmx)
 end
 
 # This transformation is used to change the basis from wannier90 default to canonical basis.
-# It can be directly put into Hop.changebasis
+# It can be directly put into HopTB.changebasis
 const Us_wann = Dict(
     0 => Matrix{ComplexF64}(I, 1, 1),
     1 => [0 -1/√2 im/√2; 1 0 0; 0 1/√2 im/√2],
