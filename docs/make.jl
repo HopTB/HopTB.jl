@@ -3,7 +3,7 @@ using Documenter, HopTB
 makedocs(
     sitename="HopTB.jl",
     pages = [
-        "index.md",
+        "Introduction" => "index.md",
         "Ab initio calculation" => "abinitio_tutorial.md",
         "Model calculation" => "model_tutorial.md",
         "Features and API references" => [
@@ -18,5 +18,6 @@ makedocs(
 )
 
 deploydocs(
-    repo = "github.com/HopTB/HopTB.jl.git"
+    repo = "github.com/HopTB/HopTB.jl.git",
+    devbranch = "main"
 )

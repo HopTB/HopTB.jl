@@ -2,7 +2,7 @@
 
 HopTB.jl is a tight-binding package written in julia. The package has the ability of dealing with non-orthogonal tight-binding models and aims at both first principle calculations of real materials and model calculations.
 
-For real materials, HopTB.jl currently has interfaces with Wannier90, openMX and FHI-aims. Tight-binding systems are created with these density functional packages and HopTB.jl is a post-processing tool.
+For real materials, HopTB.jl currently has interfaces with Wannier90, OpenMX and FHI-aims. Tight-binding systems are created with these density functional packages and HopTB.jl is a post-processing tool.
 
 For model calculation, HopTB.jl has a similar API as pythtb to construct tight-binding models.
 
