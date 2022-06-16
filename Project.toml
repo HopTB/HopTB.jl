@@ -1,6 +1,6 @@
 name = "HopTB"
 uuid = "3804c90a-d6ae-434d-aed1-763ec3185202"
-version = "0.8.0"
+version = "0.8.1"
 
 [deps]
 Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
