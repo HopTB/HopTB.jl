@@ -3,7 +3,7 @@ module Topology
 using LinearAlgebra
 using ..HopTB
 
-export get_smooth_gauge
+export get_smooth_gauge, get_wilson_spectrum
 
 
 function parallel_transport(atm::AbstractTBModel, getU::Function,
@@ -23,11 +23,15 @@ function parallel_transport(atm::AbstractTBModel, getU::Function,
 end
 
 
-function get_wilson_spectrum(atm::AbstractTBModel, getU::Function,
-    kpaths::AbstractMatrix{<:Real}, ndiv::Int64)
+function get_wilson_spectrum(
+    tm::AbstractTBModel,
+    getU::Function,
+    kpaths::AbstractMatrix{<:Real},
+    ndiv::Int64
+)
     kpts = HopTB.Utilities.constructlinekpts(kpaths, ndiv)
     Ustart = getU(kpts[:, 1])
-    W = Ustart' * getS(atm, kpts[:, end]) * parallel_transport(atm, getU, Ustart, kpaths, ndiv)
+    W = Ustart' * getS(tm, kpts[:, end]) * parallel_transport(tm, getU, Ustart, kpaths, ndiv)
     tmp = eigvals(W)
     err = maximum(abs.(tmp) .- 1.0)
     if  err > 0.01
@@ -37,12 +41,38 @@ function get_wilson_spectrum(atm::AbstractTBModel, getU::Function,
 end
 
 
-function get_wilson_spectrum(atm::AbstractTBModel, bandind::Vector{Int64},
-    kpaths::AbstractMatrix{<:Real}, ndiv::Int64)
+@doc raw"""
+```julia
+function get_wilson_spectrum(
+    tm::AbstractTBModel,
+    band_indices::Vector{<:Integer},
+    kpaths::AbstractMatrix{<:Real},
+    ndiv::Int64
+)
+```
+
+Calculate Wilson loop spectrum for bands labelled by `band_indices` on `kpaths`.
+
+Wilson loop spectrum is defined as the eigenvalues of the parallel transport operator
+W. Specifically, W is a unitary operator and its eigenvalues are of the form exp(iθ).
+This function returns {θ}.
+
+W is defined as a product of projection operators: P_kN * ... * P_k2 * P_k1. Here,
+P is the projection operator onto bands labelled by `band_indices`. The path 
+k1 -> k2 -> ... -> kN is specified by `kpaths` and `ndiv`. Specifically, this path
+is `kpath[:, 1]` -> ... -> `kpath[:, 2]` -> ... -> `kpath[:, end]`, where `ndiv`
+k points are inserted between `kpath[:, i]` and `kpath[:, i + 1]`.
+"""
+function get_wilson_spectrum(
+    tm::AbstractTBModel,
+    band_indices::AbstractVector{<:Integer},
+    kpaths::AbstractMatrix{<:Real},
+    ndiv::Int64
+)
     function getU(k)
-        return geteig(atm, k).vectors[:, bandind]
+        return geteig(tm, k).vectors[:, band_indices]
     end
-    return get_wilson_spectrum(atm, getU, kpaths, ndiv)
+    return get_wilson_spectrum(tm, getU, kpaths, ndiv)
 end
 
 
