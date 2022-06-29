@@ -41,11 +41,11 @@ function get_wilson_spectrum(
 end
 
 
-"""
+@doc raw"""
 ```julia
 function get_wilson_spectrum(
     tm::AbstractTBModel,
-    band_indices::Vector{Int64},
+    band_indices::Vector{<:Integer},
     kpaths::AbstractMatrix{<:Real},
     ndiv::Int64
 )
@@ -53,9 +53,9 @@ function get_wilson_spectrum(
 
 Calculate Wilson loop spectrum for bands labelled by `band_indices` on `kpaths`.
 
-Wilson loop spectrum is defined as the eigenvalue of the parallel transport operator
+Wilson loop spectrum is defined as the eigenvalues of the parallel transport operator
 W. Specifically, W is a unitary operator and its eigenvalues are of the form exp(iθ).
-This function returns θ.
+This function returns {θ}.
 
 W is defined as a product of projection operators: P_kN * ... * P_k2 * P_k1. Here,
 P is the projection operator onto bands labelled by `band_indices`. The path 
