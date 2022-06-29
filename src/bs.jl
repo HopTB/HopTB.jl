@@ -494,7 +494,7 @@ function get_fermi_surfaces(
 )::Vector{FermiSurface}
 ```
 
-Calculate Fermi surfaces (with Fermi energy `fermi_energy`) for bands (specified by `bandindices`) for `tm`.
+Calculate Fermi surfaces (with Fermi energy `fermi_energy`) for bands (specified by `band_indices`) for `tm`.
 The Fermi surfaces are extracted by Marching Tetrahedra method on a uniform mesh specified by `meshsize`.
 """
 function get_fermi_surfaces(
@@ -510,16 +510,16 @@ end
 
 """
 ```julia
-function get_fermi_surfaces(
+function get_fermi_surface(
     tm::AbstractTBModel,
     meshsize::AbstractVector{Int64},
     bandidx::Integer;
-    fermienergy::Real=0.0,
+    fermi_energy::Real=0.0,
     batchsize::Int64=1
 )::Union{FermiSurface,Nothing}
 ```
 
-Calculate Fermi surfaces (with Fermi energy `fermienergy`) for the band specified by `bandidx` for `tm`.
+Calculate Fermi surfaces (with Fermi energy `fermi_energy`) for the band specified by `bandidx` for `tm`.
 The Fermi surfaces are extracted by Marching Tetrahedra method on a uniform mesh specified by `meshsize`.
 """
 function get_fermi_surface(
