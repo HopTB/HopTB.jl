@@ -54,12 +54,19 @@ function get_wilson_spectrum(
 Calculate Wilson loop spectrum for bands labelled by `band_indices` on `kpaths`.
 
 Wilson loop spectrum is defined as the eigenvalues of the parallel transport operator
-W. Specifically, W is a unitary operator and its eigenvalues are of the form exp(iθ).
-This function returns {θ}.
+``W``. Specifically, ``W`` is a unitary operator and its eigenvalues are of the form
+``\exp(\mathrm{i}θ)``. This function returns ``\{θ_i\}``.
 
-W is defined as a product of projection operators: P\_kN * ... * P\_k2 * P\_k1. Here,
-P is the projection operator onto bands labelled by `band_indices`. The path 
-k1 -> k2 -> ... -> kN is specified by `kpaths` and `ndiv`. Specifically, this path
+``W`` is defined as
+
+```math
+W = \prod_{\boldsymbol{k}_f \leftarrow \boldsymbol{k} \leftarrow \boldsymbol{k}_i}
+P_{\boldsymbol{k}},
+```
+
+where ``P`` is the projection operator onto bands labelled by `band_indices`. The path 
+``\boldsymbol{k}_f \leftarrow \boldsymbol{k} \leftarrow \boldsymbol{k}_i``
+is specified by `kpaths` and `ndiv`. Specifically, this path
 is `kpath[:, 1]` -> ... -> `kpath[:, 2]` -> ... -> `kpath[:, end]`, where `ndiv`
 k points are inserted between `kpath[:, i]` and `kpath[:, i + 1]`.
 """
