@@ -12,6 +12,7 @@ makedocs(
             "Hall effects" => "hall.md",
             "Magnetism" => "magnetism.md",
             "Band Structure" => "bs.md",
+            "Topology" => "topology.md",
             "Symmetrization of TB model" => "group.md"
         ]
     ]
