@@ -57,7 +57,7 @@ Wilson loop spectrum is defined as the eigenvalues of the parallel transport ope
 W. Specifically, W is a unitary operator and its eigenvalues are of the form exp(iθ).
 This function returns {θ}.
 
-W is defined as a product of projection operators: P_kN * ... * P_k2 * P_k1. Here,
+W is defined as a product of projection operators: P\_kN * ... * P\_k2 * P\_k1. Here,
 P is the projection operator onto bands labelled by `band_indices`. The path 
 k1 -> k2 -> ... -> kN is specified by `kpaths` and `ndiv`. Specifically, this path
 is `kpath[:, 1]` -> ... -> `kpath[:, 2]` -> ... -> `kpath[:, end]`, where `ndiv`
