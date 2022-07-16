@@ -611,7 +611,10 @@ function createmodelwannier(tbfile::String, wsvecfile::String)
                 tmp = map(s -> parse(Float64, s), split(readline(f))[(end - 1):end])
                 wskey = [R..., n, m]
                 for R′ in wsvecs[wskey]
-                    hopping = get!(hoppings, R + R′, zeros(ComplexF64, norbits, norbits))
+                    if !(R + R′ in keys(hoppings))
+                        hoppings[R + R′] = zeros(ComplexF64, norbits, norbits)
+                    end
+                    hopping = hoppings[R + R′]
                     hopping[n, m] += (tmp[1] + im * tmp[2]) / rndegen[irpt] / wsndegen[wskey]
                 end
             end
@@ -624,7 +627,10 @@ function createmodelwannier(tbfile::String, wsvecfile::String)
                 tmp = map(s -> parse(Float64, s), split(readline(f))[(end - 5):end])
                 wskey = [R..., n, m]
                 for R′ in wsvecs[wskey]
-                    position = get!(positions, R + R′, [zeros(ComplexF64, norbits, norbits) for _ in 1:3])
+                    if !(R + R′ in keys(positions))
+                        positions[R + R′] = [zeros(ComplexF64, norbits, norbits) for _ in 1:3]
+                    end
+                    position = positions[R + R′]
                     position[1][n, m] += (tmp[1] + im * tmp[2]) / rndegen[irpt] / wsndegen[wskey]
                     position[2][n, m] += (tmp[3] + im * tmp[4]) / rndegen[irpt] / wsndegen[wskey]
                     position[3][n, m] += (tmp[5] + im * tmp[6]) / rndegen[irpt] / wsndegen[wskey]
