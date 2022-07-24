@@ -363,7 +363,7 @@ function set_orbital_types!(
             n = _to_orbital_index(tm, (i, p))
             if !isapprox(site_positions[α, i], tm.positions[R0][α][n, n] / tm.overlaps[R0][n, n], atol=position_tolerance)
                 remove_extra_information!(tm)
-                error("orbital_types is not compatible with this tm: wrong positions.")
+                error("orbital_types is not compatible with this tm: wrong positions for site $(i).")
             end
         end
     end
