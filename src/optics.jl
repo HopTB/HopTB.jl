@@ -646,6 +646,21 @@ function get_injection_conductivity_k!(
     return nothing
 end
 
+function get_injection_conductivity_k(
+    tm::AbstractTBModel,
+    α::Int64,
+    β::Int64,
+    γ::Int64,
+    ωs::Vector{Float64},
+    μ::Float64,
+    k::Vector{Float64};
+    ϵ::Float64=0.1
+)
+    σs = zeros(ComplexF64, length(ωs))
+    get_injection_conductivity_k!(σs, tm, α, β, γ, ωs, μ, k; ϵ=ϵ)
+    return σs
+end
+
 @doc raw"""
 ```julia
 get_injection_conductivity(
