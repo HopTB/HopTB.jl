@@ -286,7 +286,6 @@ The returned matrix berryconnection is
 `berryconnection[n, m, ikpt] = |A[n, m]|^2` at `ikpt`.
 """
 function cltberryconnection(atm::AbstractTBModel, α::Int64, kpts::AbstractMatrix{Float64})
-    nkpts = size(kpts, 2)
     jobs = Vector{Future}()
     berryconnection = zeros((atm.norbits, atm.norbits, 0))
     kptslist = HopTB.Utilities.splitkpts(kpts, nworkers())
@@ -340,7 +339,6 @@ R^{α,β}_{nm} = ∂_αϕ_{mn}^β-A_{mm}^α+A_{nn}^α.
 ```
 """
 function cltshiftvector(atm::AbstractTBModel, α::Int64, β::Int64, kpts::AbstractMatrix{Float64})
-    nkpts = size(kpts, 2)
     jobs = Vector{Future}()
     shiftvector = zeros((atm.norbits, atm.norbits, 0))
     kptslist = HopTB.Utilities.splitkpts(kpts, nworkers())
@@ -596,6 +594,93 @@ function get_Drude_weight(
     )
     bzvol = abs(det(tm.rlat))
     return result * bzvol / nks
+end
+
+
+@doc raw"""
+```julia
+get_injection_conductivity_k!(
+    σs::AbstractVector{Complex64},
+    tm::AbstractTBModel,
+    α::Int64,
+    β::Int64,
+    γ::Int64,
+    ωs::Vector{Float64},
+    μ::Float64,
+    k::Vector{Float64};
+    ϵ::Float64=0.1
+)
+```
+
+Calculate injection conductivity at `k` point and add the result to `σs`.
+"""
+function get_injection_conductivity_k!(
+    σs::AbstractVector{Complex64},
+    tm::AbstractTBModel,
+    α::Int64,
+    β::Int64,
+    γ::Int64,
+    ωs::Vector{Float64},
+    μ::Float64,
+    k::Vector{Float64};
+    ϵ::Float64=0.1
+)
+    nωs = length(ωs)
+    vα = getvelocity(tm, α, k)
+    rβ = getA(tm, β, k)
+    rγ = getA(tm, γ, k)
+    Es = geteig(tm, k).values
+    for n in 1:tm.norbits, m in 1:tm.norbits
+        En = Es[n]
+        Em = Es[m]
+        if abs(En - Em) > only(Hop.DEGEN_THRESH)
+            fn = (En < μ) ? 1 : 0
+            fm = (Em < μ) ? 1 : 0
+            for iω in 1:nωs
+                ω = ωs[iω]
+                delta = exp(-(Em - En - ω)^2 / ϵ^2) / ϵ / √π
+                σs[iω] += (vα[n, n] - vα[m, m]) * rβ[n, m] * rγ[m, n] * (fn - fm) * delta * 3.082867745843085 # π * e^2 / (ħ * (2π)^3)
+            end
+        end
+    end
+    return nothing
+end
+
+@doc raw"""
+```julia
+get_injection_conductivity(
+    tm::AbstractTBModel,
+    α::Int64,
+    β::Int64,
+    γ::Int64,
+    ωs::Vector{Float64},
+    μ::Float64,
+    meshsize::Vector{Int64};
+    ϵ::Float64=0.1,
+    batchsize::Int64=1
+)
+```
+
+This function returns injection conductivity in μA * eV / V^2.
+"""
+function get_injection_conductivity(
+    tm::AbstractTBModel,
+    α::Int64,
+    β::Int64,
+    γ::Int64,
+    ωs::Vector{Float64},
+    μ::Float64,
+    meshsize::Vector{Int64};
+    ϵ::Float64=0.1,
+    batchsize::Int64=1
+)
+    nks = prod(meshsize)
+    nωs = length(ωs)
+    σs = [SharedArray{ComplexF64}(nωs) for _ in 1:nprocs()]
+    parallel_do(k -> get_injection_conductivity_k!(σs[myid()], tm, α, β, γ, ωs, μ, k; ϵ=ϵ),
+        UniformMesh(meshsize), batchsize=batchsize)
+    bzvol = abs(det(tm.rlat))
+    return sum(σs) * bzvol / nks
 end
 
 end
