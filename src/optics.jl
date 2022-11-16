@@ -600,7 +600,7 @@ end
 @doc raw"""
 ```julia
 get_injection_conductivity_k!(
-    σs::AbstractVector{Complex64},
+    σs::AbstractVector{ComplexF64},
     tm::AbstractTBModel,
     α::Int64,
     β::Int64,
@@ -615,7 +615,7 @@ get_injection_conductivity_k!(
 Calculate injection conductivity at `k` point and add the result to `σs`.
 """
 function get_injection_conductivity_k!(
-    σs::AbstractVector{Complex64},
+    σs::AbstractVector{ComplexF64},
     tm::AbstractTBModel,
     α::Int64,
     β::Int64,
@@ -633,7 +633,7 @@ function get_injection_conductivity_k!(
     for n in 1:tm.norbits, m in 1:tm.norbits
         En = Es[n]
         Em = Es[m]
-        if abs(En - Em) > only(Hop.DEGEN_THRESH)
+        if abs(En - Em) > only(HopTB.DEGEN_THRESH)
             fn = (En < μ) ? 1 : 0
             fm = (Em < μ) ? 1 : 0
             for iω in 1:nωs
