@@ -605,7 +605,7 @@ get_injection_conductivity_k!(
     α::Int64,
     β::Int64,
     γ::Int64,
-    ωs::Vector{Float64},
+    ωs::AbstractVector{Float64},
     μ::Float64,
     k::Vector{Float64};
     ϵ::Float64=0.1
@@ -620,7 +620,7 @@ function get_injection_conductivity_k!(
     α::Int64,
     β::Int64,
     γ::Int64,
-    ωs::Vector{Float64},
+    ωs::AbstractVector{Float64},
     μ::Float64,
     k::Vector{Float64};
     ϵ::Float64=0.1
@@ -651,7 +651,7 @@ function get_injection_conductivity_k(
     α::Int64,
     β::Int64,
     γ::Int64,
-    ωs::Vector{Float64},
+    ωs::AbstractVector{Float64},
     μ::Float64,
     k::Vector{Float64};
     ϵ::Float64=0.1
@@ -668,7 +668,7 @@ get_injection_conductivity(
     α::Int64,
     β::Int64,
     γ::Int64,
-    ωs::Vector{Float64},
+    ωs::AbstractVector{Float64},
     μ::Float64,
     meshsize::Vector{Int64};
     ϵ::Float64=0.1,
@@ -683,7 +683,7 @@ function get_injection_conductivity(
     α::Int64,
     β::Int64,
     γ::Int64,
-    ωs::Vector{Float64},
+    ωs::AbstractVector{Float64},
     μ::Float64,
     meshsize::Vector{Int64};
     ϵ::Float64=0.1,
