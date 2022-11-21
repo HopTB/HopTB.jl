@@ -1,4 +1,4 @@
-<TeXmacs|2.1.1>
+<TeXmacs|2.1.2>
 
 <style|<tuple|generic|invisible-multiply|reduced-margins|old-lengths|number-long-article>>
 
@@ -310,6 +310,24 @@
   <\eqnarray*>
     <tformat|<table|<row|<cell|\<Lambda\><rsup|\<alpha\>\<beta\>\<gamma\>>>|<cell|=>|<cell|-<frac|e<rsup|3>|\<hbar\>><big|sum><rsub|n><big|int><rsub|FS<rsub|n>><frac|\<mathd\>\<sigma\>|<around*|(|2\<mathpi\>|)><rsup|3>><around*|(|\<partial\><rsub|\<alpha\>>\<varepsilon\><rsub|n>|)><around*|(|\<partial\><rsub|\<beta\>>\<partial\><rsub|\<gamma\>>\<varepsilon\><rsub|n>|)><frac|1|<around*|\||\<nabla\>\<varepsilon\><rsub|n>|\|>>.<eq-number>>>>>
   </eqnarray*>
+
+  <section|Injection current>
+
+  The injection current conductivity is
+
+  <\eqnarray*>
+    <tformat|<table|<row|<cell|\<sigma\><rsup|\<alpha\>\<beta\>\<gamma\>><around*|(|\<omega\>|)>>|<cell|=>|<cell|<frac|\<mathpi\>e<rsup|3>|\<eta\>><big|sum><rsub|n,m><big|int><frac|\<mathd\><rsup|3>\<b-k\>|<around*|(|2\<mathpi\>|)><rsup|3>><around*|(|v<rsup|\<alpha\>><rsub|n>-v<rsub|m><rsup|\<alpha\>>|)>A<rsup|\<beta\>><rsub|n\<nocomma\>m>A<rsup|\<gamma\>><rsub|m\<nocomma\>n>f<rsub|n\<nocomma\>m>\<delta\><around*|(|\<hbar\>\<omega\>-\<varepsilon\><rsub|m\<nocomma\>n>|)>.>>>>
+  </eqnarray*>
+
+  HopTB.jl calculates
+
+  <\eqnarray*>
+    <tformat|<table|<row|<cell|\<Lambda\><rsup|\<alpha\>\<beta\>\<gamma\>><around*|(|\<omega\>|)>>|<cell|=>|<cell|\<mathpi\>e<rsup|3><big|sum><rsub|n,m><big|int><frac|\<mathd\><rsup|3>\<b-k\>|<around*|(|2\<mathpi\>|)><rsup|3>><around*|(|v<rsup|\<alpha\>><rsub|n>-v<rsub|m><rsup|\<alpha\>>|)>A<rsup|\<beta\>><rsub|n\<nocomma\>m>A<rsup|\<gamma\>><rsub|m\<nocomma\>n>f<rsub|n\<nocomma\>m>\<delta\><around*|(|\<hbar\>\<omega\>-\<varepsilon\><rsub|m\<nocomma\>n>|)>.>>>>
+  </eqnarray*>
+
+  For nonmagnetic materials, <math|\<Lambda\><around*|(|\<omega\>|)>> is
+  purely imaginary. In addition, for nonmagnetic materials,
+  <math|\<Lambda\><rsup|\<alpha\>\<beta\>\<gamma\>><around*|(|\<omega\>|)>=-\<Lambda\><rsup|\<alpha\>\<gamma\>\<beta\>><around*|(|\<omega\>|)>>.
 </body>
 
 <\initial>
