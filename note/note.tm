@@ -1,4 +1,4 @@
-<TeXmacs|2.1.1>
+<TeXmacs|2.1.2>
 
 <style|<tuple|generic|invisible-multiply|reduced-margins|old-lengths|number-long-article>>
 
@@ -297,7 +297,7 @@
     <tformat|<table|<row|<cell|\<sigma\><rsup|\<alpha\>\<beta\>\<gamma\>>>|<cell|=>|<cell|-<frac|e<rsup|3>\<tau\><rsup|2>|\<hbar\><rsup|3>><big|sum><rsub|n><big|int><frac|\<mathd\><rsup|3>\<b-k\>|<around*|(|2\<mathpi\>|)><rsup|3>><around*|(|\<partial\><rsub|\<alpha\>>\<partial\><rsub|\<beta\>>\<partial\><rsub|\<gamma\>>\<varepsilon\><rsub|n>|)>f<around*|(|\<varepsilon\><rsub|n>|)>>>|<row|<cell|>|<cell|=>|<cell|<frac|e<rsup|3>\<tau\><rsup|2>|\<hbar\><rsup|3>><big|sum><rsub|n><big|int><frac|\<mathd\><rsup|3>\<b-k\>|<around*|(|2\<mathpi\>|)><rsup|3>><around*|(|\<partial\><rsub|\<alpha\>>\<varepsilon\><rsub|n>|)><around*|(|\<partial\><rsub|\<beta\>>\<partial\><rsub|\<gamma\>>\<varepsilon\><rsub|n>|)>f<rprime|'><around*|(|\<varepsilon\><rsub|n>|)><eq-number>>>>>
   </eqnarray*>
 
-  where <math|\<varepsilon\><rsub|n>> is the band velocity, \ <math|f> is the
+  where <math|\<varepsilon\><rsub|n>> is the band energy, \ <math|f> is the
   Fermi-Dirac distribution, <math|\<tau\>> is the scattering lifetime. At
   zero temperature
 
@@ -325,7 +325,6 @@
   <\collection>
     <associate|auto-1|<tuple|1|?>>
     <associate|auto-10|<tuple|10|?>>
-    <associate|auto-11|<tuple|11|?>>
     <associate|auto-2|<tuple|2|?>>
     <associate|auto-3|<tuple|3|?>>
     <associate|auto-4|<tuple|4|?>>

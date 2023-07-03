@@ -14,3 +14,4 @@ drawboard*
 /statprof/*
 playground/
 Manifest.toml
+.DS_Store
